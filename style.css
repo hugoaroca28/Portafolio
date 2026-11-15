@@ -1,0 +1,950 @@
+/* ╔══════════════════════════════════════════════════════════════════════╗
+   ║  ESTILOS · PORTFOLIO HUGO AROCA MIGUEL                               ║
+   ║  Estética: gris claro, paneles muy redondeados, titulares apretados, ║
+   ║  azul eléctrico en degradado, objetos 3D brillantes y guiños de      ║
+   ║  herramienta de diseño (cajas de selección, cursores, numeración).   ║
+   ║                                                                      ║
+   ║  ÍNDICE                                                              ║
+   ║   0. Variables (colores, tipografías, medidas)  ← ✏️ EDITA AQUÍ      ║
+   ║   1. Base y utilidades                                               ║
+   ║   2. Pantalla de carga                                               ║
+   ║   3. Cursor personalizado                                            ║
+   ║   4. Cabecera y menú móvil                                           ║
+   ║   5. Hero (portada) y cinta en movimiento                            ║
+   ║   6. Sobre mí                                                        ║
+   ║   7. Proyectos (galería)                                             ║
+   ║   8. Currículum y botones de descarga                                ║
+   ║   9. Contacto (pie)                                                  ║
+   ║  10. Ventana emergente de proyecto (visor de fotos)                  ║
+   ║  11. Adaptación a tablet y ordenador                                 ║
+   ║  12. Accesibilidad: movimiento reducido                              ║
+   ╚══════════════════════════════════════════════════════════════════════╝ */
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   0 · VARIABLES
+   ✏️ EDITA: cambia aquí los colores y toda la web se actualiza sola.
+   ══════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Neutros */
+  --fondo:   #E9E9EC;   /* gris claro de la página */
+  --papel:   #F6F6F8;   /* gris casi blanco de tarjetas y paneles */
+  --blanco:  #FFFFFF;
+  --tinta:   #0B0B0D;   /* negro de textos y del panel de Proyectos */
+  --gris:    #7C7C87;   /* texto secundario */
+  --linea:   rgba(11, 11, 13, 0.14);   /* líneas finas */
+
+  /* Color */
+  --azul:     #1E3DFF;  /* color principal */
+  --violeta:  #8A5CFF;
+  --rosa:     #FF4FA3;  /* ↓ acentos de las tarjetas de proyecto */
+  --lima:     #B6F23C;
+  --naranja:  #FF5A1F;
+  --amarillo: #FFD21F;
+  --degradado: linear-gradient(100deg, var(--azul) 0%, #3D2BFF 45%, var(--violeta) 100%);
+
+  /* Tipografías */
+  --f-titulo:   'Inter Tight', 'Helvetica Neue', Arial, sans-serif;
+  --f-etiqueta: 'DM Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --f-texto:    'Inter', system-ui, sans-serif;
+
+  /* Medidas */
+  --margen:   clamp(1rem, 4vw, 4rem);        /* margen lateral del contenido */
+  --hueco:    clamp(0.4rem, 0.9vw, 0.85rem); /* separación entre paneles y borde de pantalla */
+  --espacio:  clamp(4.5rem, 10vw, 9rem);     /* aire arriba/abajo de cada sección */
+  --cabecera: 5rem;                          /* alto reservado para el menú */
+  --radio:    clamp(1.5rem, 3vw, 2.75rem);   /* esquinas de los paneles grandes */
+  --radio-m:  1.4rem;                        /* esquinas de tarjetas */
+  --radio-s:  0.9rem;                        /* esquinas de fotos y elementos pequeños */
+  --borde:    1px solid var(--linea);
+  --sombra:   0 30px 60px -28px rgba(15, 18, 60, 0.35), 0 2px 6px rgba(15, 18, 60, 0.05);
+
+  /* Tamaños de los grandes titulares */
+  --t-hero:   clamp(3.4rem, min(21vw, 20svh), 22rem);
+  --t-titulo: clamp(2.6rem, 13.5vw, 15rem);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   1 · BASE Y UTILIDADES
+   ══════════════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+html.bloqueado { overflow: hidden; }   /* bloquea el scroll durante la carga / menú / ventana emergente */
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--f-texto);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+[hidden] { display: none !important; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+::selection { background: var(--azul); color: var(--blanco); }
+
+:focus-visible { outline: 2px solid var(--azul); outline-offset: 4px; }
+
+/* Enlace "saltar al contenido" (visible solo con teclado) */
+.saltar {
+  position: fixed; top: 0.5rem; left: 0.5rem; z-index: 20000;
+  padding: 0.75rem 1.1rem; background: var(--tinta); color: var(--blanco); border-radius: 99px;
+  font-family: var(--f-etiqueta); font-size: 0.85rem;
+  transform: translateY(-200%);
+}
+.saltar:focus { transform: none; }
+
+/* Etiqueta pequeña en mayúsculas y monoespaciada: (01), "Teléfono", etc. */
+.etiqueta {
+  font-family: var(--f-etiqueta);
+  font-weight: 500;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Cabecera de sección: numerito en una píldora + titular gigante */
+.seccion-cabecera { margin-bottom: clamp(1.5rem, 4.5vw, 4rem); }
+.seccion-cabecera > .etiqueta,
+.proyectos__intro > .etiqueta {
+  display: inline-block; padding: 0.35rem 0.8rem; margin-bottom: 0.8rem;
+  border: 1px solid currentColor; border-radius: 99px;
+}
+.seccion-titulo {
+  font-family: var(--f-titulo);
+  font-weight: 800;
+  font-size: var(--t-titulo);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;            /* máscara para la animación de las letras */
+  padding: 0.06em 0.05em 0.17em 0;   /* el hueco de abajo deja sitio al rabito de «¿» */
+}
+
+/* Letras que crea el JavaScript para animar */
+.letra { display: inline-block; will-change: transform; }
+
+/* Píldora azul en degradado (la lleva "AROCA" en la portada) */
+.pildora {
+  display: inline-block;
+  padding: 0 0.22em 0.02em;
+  border-radius: 99em;
+  background: var(--degradado);
+  color: var(--blanco);
+  box-shadow: inset 0 0.03em 0.05em rgba(255, 255, 255, 0.5), inset 0 -0.05em 0.08em rgba(0, 0, 80, 0.35);
+}
+
+/* Caja de selección de "programa de diseño": línea azul con 4 tiradores */
+.seleccion { position: relative; display: inline-block; padding: 0 0.07em; }
+.seleccion::after {
+  content: ""; position: absolute; inset: 0.07em 0; pointer-events: none;
+  border: 1.5px solid var(--azul);
+  --t: linear-gradient(var(--azul), var(--azul));
+  background: var(--t) left top / 9px 9px no-repeat, var(--t) right top / 9px 9px no-repeat,
+              var(--t) left bottom / 9px 9px no-repeat, var(--t) right bottom / 9px 9px no-repeat;
+}
+
+/* Marco de imagen. Si la imagen no existe, se muestra un aviso con la ruta. */
+.marco { position: relative; overflow: hidden; border-radius: var(--radio-s); background: var(--fondo); }
+.marco img { width: 100%; height: 100%; object-fit: cover; }
+.marco--vacio {
+  background: repeating-linear-gradient(-45deg, var(--papel) 0 14px, var(--acento, var(--azul)) 14px 15px);
+}
+.marco--vacio img { display: none; }
+.marco--vacio::after {
+  content: "Falta la imagen: " attr(data-archivo);
+  position: absolute; inset: auto 0.8rem 0.8rem 0.8rem;
+  padding: 0.6rem 0.8rem; background: var(--tinta); color: var(--blanco); border-radius: 0.6rem;
+  font-family: var(--f-etiqueta); font-size: 0.75rem; overflow-wrap: anywhere;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   2 · PANTALLA DE CARGA
+   ══════════════════════════════════════════════════════════════════════ */
+.cargador { position: fixed; inset: 0; z-index: 10000; display: none; }
+.js .cargador { display: block; }
+.sin-animacion .cargador { display: none; }
+
+.cargador__capa { position: absolute; inset: 0; }
+.cargador__capa--color { background: var(--degradado); }
+.cargador__capa--negra {                 /* (capa principal: ahora es gris claro) */
+  background: var(--fondo); color: var(--tinta);
+  display: flex; align-items: flex-end;
+  padding: var(--margen);
+}
+.cargador__contenido { width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
+.cargador__nombre { font-family: var(--f-etiqueta); text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.78rem; color: var(--gris); padding-bottom: 0.8rem; }
+.cargador__num {
+  font-family: var(--f-titulo); font-weight: 800;
+  font-size: clamp(7rem, 32vw, 26rem); line-height: 0.78; letter-spacing: -0.07em;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   3 · CURSOR PERSONALIZADO
+   (solo se activa en dispositivos con ratón: clase .con-cursor en <html>)
+   ══════════════════════════════════════════════════════════════════════ */
+.cursor, .cursor-punto {
+  position: fixed; top: 0; left: 0; z-index: 9999;
+  border-radius: 50%; pointer-events: none; display: none;
+  background: #fff; mix-blend-mode: difference;
+}
+.con-cursor .cursor { display: grid; place-items: center; }
+.con-cursor .cursor-punto { display: block; }
+.con-cursor, .con-cursor a, .con-cursor button, .con-cursor .visor__escenario { cursor: none; }
+
+.cursor {
+  width: 34px; height: 34px;
+  transition: width 0.35s cubic-bezier(.2,.9,.3,1.3), height 0.35s cubic-bezier(.2,.9,.3,1.3), background 0.25s, opacity 0.25s;
+}
+.cursor-punto { width: 6px; height: 6px; }
+
+/* Estado: encima de un enlace o botón */
+.cursor--enlace { width: 70px; height: 70px; }
+
+/* Estado: encima de un elemento con data-cursor="Texto" */
+.cursor--texto {
+  width: 96px; height: 96px;
+  background: var(--degradado); mix-blend-mode: normal;
+  box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.45), 0 14px 30px -10px rgba(30, 61, 255, 0.6);
+}
+.cursor__texto {
+  font-family: var(--f-etiqueta); font-weight: 500; font-size: 0.74rem;
+  text-transform: uppercase; letter-spacing: 0.04em; color: var(--blanco);
+  opacity: 0; transition: opacity 0.2s;
+}
+.cursor--texto .cursor__texto { opacity: 1; }
+.cursor--oculto { opacity: 0; }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   4 · CABECERA Y MENÚ MÓVIL
+   ══════════════════════════════════════════════════════════════════════ */
+.cabecera {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; justify-content: flex-end; align-items: center;
+  padding: 1rem var(--margen);
+  pointer-events: none;                 /* deja pasar los clics alrededor del menú */
+}
+.cabecera > * { pointer-events: auto; }
+
+/* Efecto "cristal": fondo translúcido y desenfocado */
+.cabecera__nav,
+.cabecera__hamburguesa {
+  background: rgba(255, 255, 255, 0.62);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px -12px rgba(15, 18, 60, 0.3);
+}
+
+.cabecera__nav { display: none; align-items: center; padding: 0.3rem; gap: 0.1rem; border-radius: 99px; }
+.cabecera__nav a {
+  font-family: var(--f-texto); font-weight: 500; font-size: 0.9rem;
+  padding: 0.55rem 1rem; display: block; border-radius: 99px;
+  transition: background-color 0.2s, color 0.2s;
+}
+.cabecera__nav a:hover { background: rgba(11, 11, 13, 0.08); }
+.cabecera__nav .cabecera__cta { background: var(--tinta); color: var(--blanco); }
+.cabecera__nav .cabecera__cta:hover { background: var(--azul); color: var(--blanco); }
+
+/* Botón hamburguesa (tres rayas que se convierten en una X al abrir) */
+.cabecera__hamburguesa {
+  width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-content: center; gap: 5px;
+  transition: background-color 0.3s;
+}
+.cabecera__hamburguesa span { display: block; width: 1.25rem; height: 2px; border-radius: 2px; background: var(--tinta); transition: transform 0.3s, opacity 0.2s, background-color 0.3s; }
+.menu-abierto .cabecera__hamburguesa { background: var(--tinta); border-color: var(--tinta); }
+.menu-abierto .cabecera__hamburguesa span { background: var(--blanco); }
+.menu-abierto .cabecera__hamburguesa span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.menu-abierto .cabecera__hamburguesa span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.menu-abierto .cabecera__hamburguesa span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Menú a pantalla completa: lista numerada (01) (02)… */
+.menu-movil {
+  position: fixed; inset: 0; z-index: 900;
+  background: var(--fondo);
+  display: flex; flex-direction: column; justify-content: center;
+  padding: calc(var(--cabecera) + 1rem) var(--margen) 2rem;
+  clip-path: circle(0% at calc(100% - 2.5rem) 2.5rem);
+  visibility: hidden;
+  transition: clip-path 0.6s cubic-bezier(.7,0,.2,1), visibility 0s 0.6s;
+}
+.menu-abierto .menu-movil {
+  clip-path: circle(150% at calc(100% - 2.5rem) 2.5rem);
+  visibility: visible; transition-delay: 0s;
+}
+.menu-movil nav { display: flex; flex-direction: column; border-top: var(--borde); }
+.menu-movil nav a {
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2.4rem, 12vw, 5rem); line-height: 1; letter-spacing: -0.055em;
+  display: flex; align-items: baseline; gap: 0.7rem;
+  padding-block: 0.55rem; border-bottom: var(--borde);
+}
+.menu-movil nav a small { font-family: var(--f-etiqueta); font-weight: 400; font-size: 0.8rem; letter-spacing: 0; color: var(--azul); }
+.menu-movil nav a small::before { content: "("; }
+.menu-movil nav a small::after  { content: ")"; }
+.menu-movil__pie { margin-top: 2rem; font-family: var(--f-etiqueta); font-size: 0.8rem; color: var(--gris); }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   5 · HERO (PORTADA)
+   ══════════════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column;
+  padding-top: var(--cabecera);
+  overflow: hidden; overflow: clip;
+  /* líneas muy sutiles y manchas de color, como el lienzo de un programa de diseño */
+  background:
+    linear-gradient(var(--linea) 1px, transparent 1px) 0 0 / 100% 25%,
+    radial-gradient(60% 50% at 80% 30%, rgba(138, 92, 255, 0.16), transparent 70%),
+    radial-gradient(50% 45% at 10% 70%, rgba(30, 61, 255, 0.10), transparent 70%);
+}
+
+.hero__centro {
+  position: relative; z-index: 1;
+  flex: 1; display: flex; flex-direction: column; justify-content: center;
+  padding: 1.5rem var(--margen);
+}
+
+.hero__sobretitulo {
+  font-family: var(--f-etiqueta); font-size: 0.78rem;
+  text-transform: uppercase; letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 0.6rem;
+  margin-bottom: clamp(0.8rem, 2vw, 1.4rem);
+}
+
+/* Puntito que parpadea ("en directo") */
+.punto-vivo { flex: none; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--azul); box-shadow: 0 0 0 4px rgba(30, 61, 255, 0.18); animation: latido 1.6s ease-in-out infinite; }
+@keyframes latido { 50% { transform: scale(0.6); box-shadow: 0 0 0 8px rgba(30, 61, 255, 0); } }
+
+/* El nombre gigante */
+.hero__titulo {
+  position: relative;
+  font-family: var(--f-titulo); font-weight: 800;
+  font-size: var(--t-hero); line-height: 0.88; letter-spacing: -0.06em;
+  text-transform: uppercase;
+}
+.hero__linea { display: block; overflow: hidden; padding-block: 0.035em; white-space: nowrap; }
+.hero__linea--2 { text-align: right; }
+.hero__linea .letra { transition: color 0.25s; }
+.hero__linea--1 .letra:hover, .hero__linea--3 .letra:hover { color: var(--azul); }
+.hero__linea--2 .letra:hover { color: var(--amarillo); }
+
+/* ── Objetos decorativos ── */
+.hero__forma { position: absolute; pointer-events: none; display: block; }
+.hero__forma > * { display: block; width: 100%; height: 100%; }
+
+/* Flor azul: dos píldoras brillantes cruzadas */
+.hero__forma--flor { z-index: 2; width: clamp(64px, 11.5vw, 180px); aspect-ratio: 1; left: 3.5vw; top: 37%; }
+.hero__forma--flor > div { position: relative; animation: flotar 6s ease-in-out infinite reverse; filter: drop-shadow(0 18px 18px rgba(20, 40, 200, 0.35)); }
+.hero__forma--flor i {
+  position: absolute; inset: 32% 0; border-radius: 99px;
+  background: linear-gradient(165deg, #A9CCFF 0%, #3D6BFF 38%, #1E3DFF 62%, #0A1FB8 100%);
+  box-shadow: inset 4px 6px 10px rgba(255, 255, 255, 0.65), inset -6px -8px 14px rgba(0, 8, 110, 0.55);
+}
+.hero__forma--flor i:first-child { rotate: 45deg; }
+.hero__forma--flor i:last-child  { rotate: -45deg; }
+
+/* Estrella naranja */
+.hero__forma--estrella { z-index: 2; width: clamp(52px, 9vw, 150px); aspect-ratio: 1; right: 8vw; bottom: 35%; }
+.hero__forma--estrella > div { animation: flotar 5.5s ease-in-out infinite; }
+.hero__forma--estrella svg { width: 100%; height: 100%; overflow: visible; animation: girar 22s linear infinite reverse; filter: drop-shadow(0 14px 14px rgba(200, 50, 0, 0.35)); }
+.hero__forma--estrella path { fill: url(#brillo-estrella); stroke: #FF7A2B; stroke-width: 5; stroke-linejoin: round; }
+
+/* Cursor con etiqueta junto al nombre (como en un archivo de diseño compartido) */
+.hero__forma--puntero { z-index: 3; left: 3.2em; bottom: -0.16em; width: auto; }
+.hero__forma--puntero > span { display: flex; align-items: flex-start; width: auto; height: auto; }
+.hero__forma--puntero svg { width: 1.5rem; height: 1.5rem; flex: none; }
+.hero__forma--puntero path { fill: var(--azul); stroke: var(--blanco); stroke-width: 1.5; stroke-linejoin: round; }
+.hero__forma--puntero b {
+  margin: 1.1rem 0 0 -0.2rem; padding: 0.3rem 0.7rem; border-radius: 0.2rem 99px 99px 99px;
+  background: var(--azul); color: var(--blanco);
+  font: 500 0.8rem/1.2 var(--f-etiqueta); letter-spacing: 0; text-transform: none;
+}
+
+@keyframes girar  { to { transform: rotate(360deg); } }
+@keyframes flotar { 50% { transform: translateY(-14px); } }
+
+/* Fila inferior de la portada */
+.hero__pie {
+  position: relative; z-index: 1;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 2rem;
+  padding: 0 var(--margen) clamp(1.2rem, 3vw, 2rem);
+}
+.hero__descripcion { max-width: 36ch; font-weight: 500; flex: 1 1 16rem; }
+.hero__etiqueta {
+  font-family: var(--f-etiqueta); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em;
+  background: var(--blanco); border: var(--borde); border-radius: 99px;
+  padding: 0.55rem 1rem 0.55rem 0.8rem; display: inline-flex; align-items: center; gap: 0.55rem;
+}
+.hero__etiqueta::before { content: ""; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #22C55E; box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2); }
+.hero__scroll {
+  display: none;
+  font-family: var(--f-etiqueta); text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.74rem;
+  width: 5.2rem; height: 5.2rem; border-radius: 50%; border: var(--borde); background: var(--blanco);
+  place-content: center; text-align: center; line-height: 1.3;
+  transition: background 0.25s, color 0.25s, border-color 0.25s;
+}
+.hero__scroll:hover { background: var(--tinta); color: var(--blanco); border-color: var(--tinta); }
+.hero__scroll span { display: block; animation: rebote 1.4s ease-in-out infinite; }
+@keyframes rebote { 50% { transform: translateY(5px); } }
+
+/* ── Cinta de texto en movimiento: una gran píldora azul ── */
+.cinta {
+  position: relative; z-index: 1;
+  margin: 0 var(--hueco) var(--hueco);
+  background: var(--degradado); color: var(--blanco);
+  border-radius: 99px; overflow: hidden;
+  padding-block: clamp(0.55rem, 1.2vw, 1rem);
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), inset 0 -4px 8px rgba(0, 0, 80, 0.3);
+}
+.cinta__pista { display: flex; width: max-content; will-change: transform; }
+.cinta__grupo { display: flex; align-items: center; gap: clamp(1.2rem, 3vw, 2.5rem); padding-right: clamp(1.2rem, 3vw, 2.5rem); }
+.cinta__grupo span {
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase; white-space: nowrap;
+  font-size: clamp(1.6rem, 4vw, 3.4rem); letter-spacing: -0.045em; line-height: 1.05;
+}
+.cinta__grupo i { font-style: normal; color: var(--amarillo); font-size: clamp(1.1rem, 2.6vw, 2.2rem); }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   6 · SOBRE MÍ  (panel blanco redondeado)
+   ══════════════════════════════════════════════════════════════════════ */
+/* overflow: clip evita que las animaciones de entrada ensanchen la página en móvil */
+.sobre, .cv, .contacto { overflow: hidden; overflow: clip; }
+
+.sobre {
+  background: var(--blanco);                     /* ✏️ EDITA: color de fondo del panel */
+  margin: 0 var(--hueco);
+  border-radius: var(--radio);
+  padding: var(--espacio) calc(var(--margen) - var(--hueco));
+}
+
+.sobre__rejilla { display: grid; gap: clamp(2.5rem, 6vw, 6rem); }
+
+.sobre__frase {
+  font-family: var(--f-titulo); font-weight: 600;
+  font-size: clamp(1.7rem, 3.7vw, 3.9rem); line-height: 1.06; letter-spacing: -0.04em;
+}
+.sobre__parrafo { max-width: 52ch; margin-top: clamp(1.5rem, 3vw, 2.5rem); color: #3A3A42; }
+
+.sobre__chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: clamp(1.5rem, 3vw, 2.5rem); }
+.sobre__chips li {
+  font-family: var(--f-etiqueta); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em;
+  padding: 0.5rem 1rem; border: var(--borde); border-radius: 99px; background: var(--papel);
+  transition: background 0.25s, color 0.25s, border-color 0.25s, rotate 0.3s cubic-bezier(.2,.9,.3,1.6);
+}
+.sobre__chips li:hover { background: var(--azul); color: var(--blanco); border-color: var(--azul); rotate: -3deg; }
+
+/* Retrato: esquinas redondeadas, caja de selección y etiqueta de cursor */
+.sobre__retrato { position: relative; width: min(100%, 26rem); justify-self: center; rotate: 2deg; }
+.sobre__retrato .marco {
+  aspect-ratio: 2 / 3; border-radius: var(--radio-m);
+  background: var(--papel); border: var(--borde); box-shadow: var(--sombra);
+}
+.sobre__retrato::after {                         /* caja de selección alrededor de la foto */
+  content: ""; position: absolute; inset: -0.7rem; pointer-events: none;
+  border: 1.5px solid var(--azul);
+  --t: linear-gradient(var(--azul), var(--azul));
+  background: var(--t) left top / 9px 9px no-repeat, var(--t) right top / 9px 9px no-repeat,
+              var(--t) left bottom / 9px 9px no-repeat, var(--t) right bottom / 9px 9px no-repeat;
+}
+.sobre__retrato img { transition: scale 0.6s cubic-bezier(.2,.8,.2,1); }
+.sobre__retrato:hover img { scale: 1.05; }
+.sobre__hola {
+  position: absolute; z-index: 1; left: -1.4rem; bottom: 1.6rem; rotate: -8deg;
+  font-family: var(--f-titulo); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.6rem); letter-spacing: -0.02em;
+  background: var(--degradado); color: var(--blanco); padding: 0.35rem 1.1rem; border-radius: 0.3rem 99px 99px 99px;
+  box-shadow: inset 0 2px 3px rgba(255, 255, 255, 0.45), 0 12px 24px -8px rgba(30, 61, 255, 0.6);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   7 · PROYECTOS  (panel negro con cuadrícula de "lienzo")
+   En móvil: tarjetas apiladas en vertical.
+   En ordenador (≥ 900 px): ver el bloque 11, galería horizontal.
+   ══════════════════════════════════════════════════════════════════════ */
+.proyectos {
+  position: relative;
+  margin-top: var(--hueco);
+  color: var(--blanco);
+  border-radius: var(--radio);
+  background:                                    /* ✏️ EDITA: fondo de la galería */
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 64px 64px,
+    radial-gradient(60% 70% at 85% 10%, rgba(30, 61, 255, 0.35), transparent 70%),
+    var(--tinta);
+}
+
+.proyectos__pista {
+  display: flex; flex-direction: column; gap: clamp(1.5rem, 5vw, 3rem);
+  padding: var(--espacio) var(--margen);
+}
+
+.proyectos__intro > .etiqueta { color: rgba(255, 255, 255, 0.7); }
+.proyectos__entradilla { max-width: 32ch; margin-top: 1.5rem; font-size: 1.1em; color: rgba(255, 255, 255, 0.72); }
+.proyectos__pista-texto { display: none; font-family: var(--f-etiqueta); text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.78rem; margin-top: 1.2rem; color: var(--amarillo); }
+
+/* ── Tarjeta de proyecto ── */
+.tarjeta {
+  --acento: var(--rosa);
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--papel); color: var(--tinta);
+  border-radius: var(--radio-m); padding: 0.55rem;
+  box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.8);
+  outline: 2px solid transparent; outline-offset: 5px;
+  transition: translate 0.4s cubic-bezier(.2,.8,.2,1), outline-color 0.3s, box-shadow 0.4s;
+}
+/* Colores de acento disponibles para cada tarjeta */
+.tarjeta--rosa     { --acento: var(--rosa); }
+.tarjeta--lima     { --acento: var(--lima); }
+.tarjeta--naranja  { --acento: var(--naranja); }
+.tarjeta--amarillo { --acento: var(--amarillo); }
+
+.tarjeta:hover { translate: 0 -8px; outline-color: var(--acento); box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.9); }
+
+.tarjeta--vertical .marco   { aspect-ratio: 4 / 5; }
+.tarjeta--horizontal .marco { aspect-ratio: 4 / 3; }
+.tarjeta .marco img { transition: scale 0.7s cubic-bezier(.2,.8,.2,1); }
+.tarjeta:hover .marco img { scale: 1.06; }
+
+.tarjeta__info { padding: 0.9rem 0.7rem 0.75rem; }
+.tarjeta__meta {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  font-family: var(--f-etiqueta); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.tarjeta__meta span:first-child::before { content: "("; }
+.tarjeta__meta span:first-child::after  { content: ")"; }
+.tarjeta__meta span:last-child { background: var(--acento); padding: 0.2rem 0.65rem; border-radius: 99px; }
+.tarjeta__titulo {
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(1.5rem, 2.1vw, 2.1rem); line-height: 0.95; letter-spacing: -0.045em;
+  margin-top: 0.65rem;
+}
+.tarjeta__texto { font-size: 0.88rem; line-height: 1.45; margin-top: 0.5rem; color: #4A4A54; }
+
+/* Botón invisible que cubre toda la tarjeta: al pulsarlo se abre la ventana emergente */
+.tarjeta__abrir { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; border-radius: inherit; cursor: pointer; }
+.tarjeta__abrir:focus-visible { outline: 2px solid var(--blanco); outline-offset: 6px; }
+
+/* Etiqueta "8 fotos" sobre la portada (la escribe script.js contando la lista) */
+.tarjeta__contador {
+  position: absolute; top: 0.6rem; right: 0.6rem; z-index: 1;
+  font-family: var(--f-etiqueta); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em;
+  background: rgba(11, 11, 13, 0.55); color: var(--blanco); padding: 0.3rem 0.7rem; border-radius: 99px;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  transition: background-color 0.25s, color 0.25s;
+}
+.tarjeta:hover .tarjeta__contador { background: var(--acento); color: var(--tinta); }
+
+/* Panel final */
+.proyectos__final { display: flex; flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+.proyectos__final p {
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2.4rem, 7vw, 7rem); line-height: 0.9; letter-spacing: -0.055em;
+}
+.boton-redondo {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  font-family: var(--f-texto); font-weight: 500; font-size: 0.95rem;
+  background: var(--blanco); color: var(--tinta); border-radius: 99px;
+  padding: 0.9rem 1.5rem;
+  transition: background 0.25s, color 0.25s;
+}
+.boton-redondo:hover { background: var(--azul); color: var(--blanco); }
+
+.proyectos__progreso { display: none; }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   8 · CURRÍCULUM
+   ══════════════════════════════════════════════════════════════════════ */
+.cv { padding: var(--espacio) var(--margen); }
+
+/* Subtítulos: Formación · Experiencia · Herramientas */
+.cv__subtitulo {
+  display: flex; align-items: center; gap: 1rem;
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(1.5rem, 3vw, 2.6rem); letter-spacing: -0.045em; line-height: 1;
+  margin: clamp(3.5rem, 7vw, 6rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+}
+.cv__subtitulo:first-of-type { margin-top: 0; }
+.cv__subtitulo::after { content: ""; flex: 1; height: 1px; background: var(--linea); }
+
+/* ── Línea de tiempo ── */
+.cv__linea-tiempo { position: relative; padding-left: 2.2rem; }
+.cv__linea { position: absolute; left: 0.5rem; top: 0.5rem; bottom: 0.5rem; width: 2px; border-radius: 2px; background: var(--linea); }
+.cv__linea-relleno { width: 100%; height: 100%; border-radius: 2px; background: linear-gradient(var(--azul), var(--violeta)); transform-origin: top; }
+
+.cv__lista { display: grid; gap: clamp(1rem, 2.5vw, 1.75rem); }
+
+.cv__item { position: relative; display: grid; gap: 0.7rem; }
+/* Bolita brillante de cada estudio sobre la línea */
+.cv__item::before {
+  content: ""; position: absolute; left: -2.2rem; top: 0.15rem;
+  width: 1.15rem; height: 1.15rem; border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #fff 0 8%, color-mix(in srgb, var(--acento) 70%, #fff) 22%, var(--acento) 60%, color-mix(in srgb, var(--acento) 60%, #000) 100%);
+  box-shadow: 0 4px 8px -2px color-mix(in srgb, var(--acento) 70%, #000);
+}
+/* ✏️ EDITA: color de cada estudio (por orden) */
+.cv__item:nth-child(3n + 1) { --acento: var(--azul); }
+.cv__item:nth-child(3n + 2) { --acento: var(--naranja); }
+.cv__item:nth-child(3n + 3) { --acento: var(--amarillo); }
+
+.cv__fecha { font-family: var(--f-etiqueta); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gris); }
+
+.cv__cuerpo {
+  background: var(--papel); border: 1px solid var(--blanco); border-radius: var(--radio-m);
+  padding: clamp(1.2rem, 2.5vw, 2rem);
+  transition: translate 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s, background-color 0.35s;
+}
+.cv__item:hover .cv__cuerpo { translate: 0 -4px; background: var(--blanco); box-shadow: var(--sombra); }
+
+.cv__tipo {
+  display: inline-block;
+  font-family: var(--f-etiqueta); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+  border: var(--borde); border-radius: 99px; padding: 0.2rem 0.7rem;
+}
+.cv__titulo {
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(1.6rem, 3.6vw, 3.4rem); line-height: 0.95; letter-spacing: -0.05em;
+  margin-top: 0.8rem; overflow-wrap: break-word;
+}
+.cv__texto { margin-top: 0.8rem; max-width: 60ch; font-size: 0.95rem; color: #3A3A42; }
+.cv__nota-final {
+  display: inline-block; margin-top: 1rem;
+  font-family: var(--f-etiqueta); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
+  background: var(--tinta); color: var(--blanco); padding: 0.4rem 0.9rem; border-radius: 99px;
+}
+.cv__nota-final strong { color: var(--amarillo); font-weight: 500; font-size: 1.15em; margin-left: 0.3em; }
+
+/* Lista de programas */
+.cv__herramientas { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.cv__herramientas li {
+  font-family: var(--f-titulo); font-weight: 700; font-size: clamp(1.05rem, 2vw, 1.7rem); letter-spacing: -0.035em;
+  padding: 0.5rem 1.2rem; border-radius: 99px; background: var(--papel); border: 1px solid var(--blanco);
+  transition: background 0.25s, color 0.25s, rotate 0.3s cubic-bezier(.2,.9,.3,1.6);
+}
+.cv__herramientas li:hover { background: var(--degradado); color: var(--blanco); }
+.cv__herramientas li:nth-child(odd):hover  { rotate: -3deg; }
+.cv__herramientas li:nth-child(even):hover { rotate: 3deg; }
+
+/* ── Botón gigante de descarga del portfolio ── */
+.cv__descarga { margin-top: clamp(4rem, 9vw, 8rem); }
+
+.descarga {
+  position: relative; overflow: hidden;
+  display: flex; justify-content: space-between; align-items: center; gap: 0.75rem;
+  padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.3rem, 4vw, 4rem);
+  background: var(--degradado); color: var(--blanco);      /* ✏️ EDITA: color del botón */
+  border-radius: var(--radio);
+  box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.45), inset 0 -10px 20px rgba(0, 0, 90, 0.35), 0 40px 60px -30px rgba(30, 61, 255, 0.7);
+  transition: box-shadow 0.4s;
+}
+/* Capa negra que sube al pasar el ratón */
+.descarga__relleno {
+  position: absolute; inset: 0; background: var(--tinta);
+  transform: translateY(101%); transition: transform 0.55s cubic-bezier(.7,0,.2,1);
+}
+.descarga__texto {
+  position: relative;
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2.3rem, 10.5vw, 12rem); line-height: 0.86; letter-spacing: -0.06em;
+}
+.descarga__icono {
+  position: relative; flex: none;
+  width: clamp(3.2rem, 13vw, 12rem); aspect-ratio: 1; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--blanco); color: var(--azul);
+  font-family: var(--f-titulo); font-weight: 800; font-size: clamp(1.6rem, 6.5vw, 6rem); line-height: 1;
+  box-shadow: inset 0 -6px 12px rgba(0, 0, 80, 0.15);
+  transition: background-color 0.3s, color 0.3s, rotate 0.5s cubic-bezier(.2,.9,.3,1.4);
+}
+.descarga:hover .descarga__relleno, .descarga:focus-visible .descarga__relleno { transform: none; }
+.descarga:hover .descarga__icono, .descarga:focus-visible .descarga__icono { background: var(--amarillo); color: var(--tinta); rotate: 360deg; }
+
+/* Fila bajo el botón gigante: nota + botón para descargar solo el CV */
+.cv__extra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem 2rem; margin-top: 1.6rem; }
+.cv__nota { font-family: var(--f-etiqueta); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--gris); }
+.boton-cv {
+  display: inline-flex; align-items: center; gap: 1rem;
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(1.2rem, 2.6vw, 2.2rem); letter-spacing: -0.045em; line-height: 1;
+  background: var(--blanco); border: var(--borde); border-radius: 99px;
+  padding: 0.5rem 0.55rem 0.5rem 1.4rem;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
+}
+.boton-cv__icono {
+  width: 2.1em; aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+  background: var(--tinta); color: var(--blanco);
+  transition: background-color 0.25s, color 0.25s, rotate 0.5s cubic-bezier(.2,.9,.3,1.4);
+}
+.boton-cv:hover, .boton-cv:focus-visible { background: var(--tinta); color: var(--blanco); border-color: var(--tinta); }
+.boton-cv:hover .boton-cv__icono, .boton-cv:focus-visible .boton-cv__icono { background: var(--amarillo); color: var(--tinta); rotate: 360deg; }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   9 · CONTACTO (PIE DE PÁGINA)  (panel azul con lista numerada)
+   ══════════════════════════════════════════════════════════════════════ */
+.contacto {
+  position: relative;
+  margin: 0 var(--hueco) var(--hueco);
+  border-radius: var(--radio);
+  background:                                    /* ✏️ EDITA: fondo del contacto */
+    radial-gradient(60% 80% at 100% 0%, rgba(138, 92, 255, 0.9), transparent 70%),
+    linear-gradient(160deg, #2747FF 0%, var(--azul) 45%, #1226C4 100%);
+  color: var(--blanco);
+  padding: var(--espacio) calc(var(--margen) - var(--hueco)) 1.5rem;
+}
+/* Esfera amarilla decorativa */
+.contacto::before {
+  content: ""; position: absolute; right: clamp(1rem, 6vw, 6rem); top: clamp(1.5rem, 5vw, 5rem);
+  width: clamp(3.5rem, 9vw, 9rem); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, #FFFFFF 0 5%, #FFF3A6 12%, #FFD21F 38%, #F2A900 70%, #A86A00 100%);
+  box-shadow: inset -6px -10px 18px rgba(120, 70, 0, 0.45), 0 24px 30px -10px rgba(0, 0, 60, 0.6);
+  animation: flotar 6s ease-in-out infinite;
+}
+.contacto .seccion-cabecera { margin-bottom: clamp(1.5rem, 4vw, 3rem); }
+.contacto__titulo { margin-top: 0.2rem; }
+
+.contacto__email {
+  display: inline-block;
+  font-family: var(--f-titulo); font-weight: 700;
+  font-size: clamp(1.45rem, 6.6vw, 7.5rem); line-height: 1.05; letter-spacing: -0.05em;
+  overflow-wrap: anywhere;
+  /* subrayado que se "rellena" de blanco al pasar el ratón */
+  background: linear-gradient(var(--blanco), var(--blanco)) left bottom / 100% 0.05em no-repeat;
+  padding: 0 0.08em 0.08em 0;
+  transition: background-size 0.45s cubic-bezier(.7,0,.2,1), color 0.3s;
+}
+.contacto__email:hover { background-size: 100% 100%; color: var(--azul); }
+
+/* Lista numerada (1) (2) (3) con líneas finas */
+.contacto__datos {
+  counter-reset: dato;
+  margin-top: clamp(3rem, 7vw, 6rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+.contacto__datos li {
+  counter-increment: dato;
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.2rem 1.5rem;
+  padding-block: clamp(0.8rem, 1.6vw, 1.3rem);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+.contacto__datos .etiqueta { color: rgba(255, 255, 255, 0.8); }
+.contacto__datos .etiqueta::before { content: "(" counter(dato) ") "; color: var(--amarillo); }
+.contacto__datos li > :last-child {
+  font-family: var(--f-titulo); font-weight: 700; text-transform: uppercase;
+  font-size: clamp(1.5rem, 3.4vw, 3rem); line-height: 1; letter-spacing: -0.045em;
+}
+.contacto__datos a { transition: color 0.2s; }
+.contacto__datos a:hover { color: var(--amarillo); }
+
+.contacto__pie {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
+  margin-top: clamp(2.5rem, 6vw, 5rem);
+  font-family: var(--f-etiqueta); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.8);
+}
+.contacto__pie a { display: inline-block; transition: color 0.2s; }
+.contacto__pie a:hover { color: var(--amarillo); }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   10 · VENTANA EMERGENTE DE PROYECTO (VISOR DE FOTOS)
+   Ocupa toda la pantalla; un resplandor toma el color de acento de la
+   tarjeta pulsada.
+   Móvil: todo apilado.  Ordenador: texto a la izquierda, foto a la derecha.
+   ══════════════════════════════════════════════════════════════════════ */
+.visor { position: fixed; inset: 0; z-index: 5000; --acento: var(--azul); }
+
+.visor__panel {
+  position: absolute; inset: 0; overflow: hidden;
+  color: var(--tinta);
+  background:
+    radial-gradient(55% 60% at 72% 42%, color-mix(in srgb, var(--acento) 42%, transparent), transparent 72%),
+    linear-gradient(var(--linea) 1px, transparent 1px) 0 0 / 64px 64px,
+    linear-gradient(90deg, var(--linea) 1px, transparent 1px) 0 0 / 64px 64px,
+    var(--fondo);
+  display: grid; gap: 0.9rem;
+  padding: 1rem var(--margen);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "info" "escenario" "controles" "miniaturas";
+}
+
+/* Botón de cerrar */
+.visor__cerrar {
+  position: absolute; top: 1rem; right: var(--margen); z-index: 3;
+  font-family: var(--f-texto); font-weight: 500; font-size: 0.9rem;
+  background: var(--tinta); color: var(--blanco); padding: 0.7rem 1.1rem; border-radius: 99px;
+  transition: background-color 0.2s;
+}
+.visor__cerrar:hover { background: var(--azul); }
+
+/* Texto del proyecto */
+.visor__info { grid-area: info; padding-right: 7.5rem; }
+.visor__meta {
+  display: flex; align-items: center; gap: 0.7rem;
+  font-family: var(--f-etiqueta); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em;
+}
+.visor__num::before { content: "("; }
+.visor__num::after  { content: ")"; }
+.visor__categoria { background: var(--acento); padding: 0.2rem 0.65rem; border-radius: 99px; }
+.visor__titulo {
+  font-family: var(--f-titulo); font-weight: 800; text-transform: uppercase;
+  font-size: clamp(2rem, 4.6vw, 4.6rem); line-height: 0.9; letter-spacing: -0.055em;
+  margin-top: 0.7rem; overflow-wrap: break-word;
+}
+.visor__texto { display: none; margin-top: 1.2rem; max-width: 40ch; color: #3A3A42; }
+
+/* Zona de la foto grande */
+.visor__escenario { grid-area: escenario; position: relative; min-height: 0; cursor: pointer; touch-action: pan-y; }
+.visor__imagen {
+  position: absolute; inset: 0; margin: auto;
+  max-width: 100%; max-height: 100%; width: auto; height: auto;
+  border-radius: var(--radio-s); background: var(--blanco);
+  box-shadow: 0 40px 70px -35px rgba(15, 18, 60, 0.55), 0 0 0 1px var(--linea);
+  user-select: none; -webkit-user-drag: none;
+}
+
+/* Flechas y contador "03 / 10" */
+.visor__controles { grid-area: controles; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.visor__flecha {
+  width: 3.1rem; height: 3.1rem; border-radius: 50%; flex: none;
+  border: var(--borde); background: var(--blanco);
+  font-family: var(--f-titulo); font-weight: 700; font-size: 1.2rem; line-height: 1;
+  display: grid; place-items: center;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.visor__flecha:hover { background: var(--tinta); color: var(--blanco); border-color: var(--tinta); }
+.visor__contador { font-family: var(--f-etiqueta); font-size: 0.9rem; letter-spacing: 0.04em; font-variant-numeric: tabular-nums; }
+
+/* Tira de miniaturas */
+.visor__miniaturas {
+  grid-area: miniaturas;
+  display: flex; gap: 0.5rem; overflow-x: auto; padding: 4px;
+  scrollbar-width: none;
+}
+.visor__miniaturas::-webkit-scrollbar { display: none; }
+.visor__miniaturas button {
+  display: block; width: 3.6rem; height: 3.6rem; flex: none; overflow: hidden;
+  border-radius: 0.7rem; background: var(--blanco); opacity: 0.5;
+  outline: 2px solid transparent; outline-offset: 2px;
+  transition: opacity 0.2s, outline-color 0.2s;
+}
+.visor__miniaturas img { width: 100%; height: 100%; object-fit: cover; }
+.visor__miniaturas button:hover { opacity: 1; }
+.visor__miniaturas button[aria-current="true"] { opacity: 1; outline-color: var(--azul); }
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   11 · ADAPTACIÓN A TABLET Y ORDENADOR
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≥ 600 px) ── */
+@media (min-width: 600px) {
+  .hero__scroll { display: grid; }
+
+  /* Proyectos en dos columnas mientras no haya galería horizontal */
+  .proyectos__pista { display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
+  .proyectos__intro, .proyectos__final { grid-column: 1 / -1; }
+}
+
+/* ── Ordenador (≥ 900 px) ── */
+@media (min-width: 900px) {
+  :root { --cabecera: 5.5rem; }
+
+  .hero__forma--estrella { right: 20vw; bottom: 20%; }
+
+  .cabecera__nav { display: flex; }
+  .cabecera__hamburguesa, .menu-movil { display: none; }
+
+  .sobre__rejilla { grid-template-columns: 1.55fr 1fr; align-items: center; }
+
+  /* GALERÍA HORIZONTAL: la sección ocupa una pantalla y la "pista" de
+     tarjetas se desplaza hacia la izquierda al hacer scroll (lo mueve
+     GSAP desde script.js). Sin JavaScript se puede arrastrar con scroll
+     horizontal normal. */
+  .proyectos { height: 100vh; overflow-x: auto; overflow-y: hidden; }
+  .con-gsap .proyectos { overflow: hidden; }
+
+  .proyectos__pista {
+    display: flex; flex-direction: row; align-items: center;
+    width: max-content; height: 100%;
+    gap: clamp(2.5rem, 4.5vw, 5.5rem);
+    padding: var(--cabecera) 8vw 3.5rem;
+  }
+  .proyectos__intro { flex: none; padding-right: 4vw; }
+  .proyectos__pista-texto { display: block; }
+
+  .tarjeta { flex: none; height: min(66vh, 640px); }
+  .tarjeta--vertical   { width: clamp(280px, 26vw, 430px); }
+  .tarjeta--horizontal { width: clamp(400px, 42vw, 700px); }
+  /* Las tarjetas se inclinan y suben/bajan un poco de forma alterna */
+  .tarjeta:nth-of-type(odd)  { rotate: -1.5deg; margin-top: -3vh; }
+  .tarjeta:nth-of-type(even) { rotate: 1.5deg;  margin-top: 4vh; }
+
+  .tarjeta .marco { flex: 1; min-height: 0; aspect-ratio: auto; }
+  .tarjeta__texto { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+
+  .proyectos__final { flex: none; padding-inline: 4vw; }
+
+  /* Barra de progreso de la galería */
+  .con-gsap .proyectos__progreso {
+    display: block; position: absolute; left: var(--margen); right: var(--margen); bottom: 1.6rem;
+    height: 4px; background: rgba(255, 255, 255, 0.16); border-radius: 99px; overflow: hidden;
+  }
+  .proyectos__progreso-barra { width: 100%; height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--azul), var(--violeta), var(--amarillo)); transform: scaleX(0); transform-origin: left; }
+
+  /* Línea de tiempo en dos columnas: fecha | contenido */
+  .cv__linea-tiempo { padding-left: 3rem; }
+  .cv__item { grid-template-columns: 13rem 1fr; gap: 2rem; align-items: start; }
+  .cv__item::before { left: -3rem; }
+  .cv__fecha { padding-top: 0.1rem; }
+
+  /* Visor: texto a la izquierda, foto a la derecha */
+  .visor__panel {
+    gap: 1.5rem clamp(2rem, 4vw, 4rem);
+    padding: 5.5rem var(--margen) 1.5rem;
+    grid-template-columns: minmax(16rem, 24rem) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    grid-template-areas: "info escenario" "controles miniaturas";
+  }
+  .visor__info { padding-right: 0; }
+  .visor__texto { display: block; }
+  .visor__controles { justify-content: flex-start; align-self: center; }
+  .visor__miniaturas { justify-content: flex-end; }
+  .visor__miniaturas button { width: 4.2rem; height: 4.2rem; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   12 · SIN ANIMACIONES
+   Si el visitante tiene activado "reducir movimiento" en su dispositivo
+   (o GSAP no ha podido cargarse), la web se muestra estática y completa.
+   ══════════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: no-preference) {
+  /* Si GSAP no carga, la cinta se mueve igualmente con CSS */
+  .sin-animacion .cinta__pista { animation: cinta 26s linear infinite; }
+}
+@keyframes cinta { to { transform: translateX(-50%); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+}

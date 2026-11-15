@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="es">
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║  PORTFOLIO · HUGO AROCA MIGUEL                                           ║
+║                                                                          ║
+║  GUÍA RÁPIDA PARA EDITAR (léeme, Hugo):                                  ║
+║                                                                          ║
+║  · Busca en este archivo el texto  "✏️ EDITA"  → cada vez que aparece    ║
+║    te indica un texto o una imagen que puedes cambiar.                   ║
+║  · Todas las imágenes viven en la carpeta  ./recursos/                   ║
+║    · ./recursos/web/proyecto/      → copias ligeras (1600 px) que usa    ║
+║      la web, una carpeta por proyecto, para que cargue rápido.           ║
+║    · ./recursos/originales/proyecto/ → tus archivos a tamaño completo.   ║
+║  · Para cambiar una imagen: guarda la nueva en ./recursos/web/ y         ║
+║    cambia la ruta del atributo  src="..."  de la etiqueta <img>.         ║
+║  · Los colores y tipografías se cambian en  style.css  (arriba del       ║
+║    todo, en el bloque ":root").                                          ║
+║  · No necesitas instalar nada: abre index.html con doble clic.           ║
+║    (Hace falta internet para cargar las fuentes y la librería GSAP.)     ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ✏️ EDITA: título de la pestaña del navegador y descripción para Google -->
+  <title>Hugo Aroca Miguel — Diseño gráfico &amp; Fotografía</title>
+  <meta name="description" content="Portfolio de Hugo Aroca Miguel, diseñador gráfico y fotógrafo en Albacete. Cartelería, identidad visual, diseño editorial y fotografía.">
+  <meta name="theme-color" content="#E9E9EC">
+
+  <!-- Tipografías de Google Fonts: Inter Tight (títulos), DM Mono (etiquetas) e Inter (texto) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./style.css">
+
+  <!-- Marca que hay JavaScript: solo entonces se muestra la pantalla de carga -->
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+
+<body>
+
+  <!-- Enlace de accesibilidad (solo aparece al navegar con teclado) -->
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PANTALLA DE CARGA (contador 0 → 100). No hace falta tocarla.
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="cargador" aria-hidden="true">
+    <div class="cargador__capa cargador__capa--color"></div>
+    <div class="cargador__capa cargador__capa--negra">
+      <div class="cargador__contenido">
+        <span class="cargador__nombre">Hugo Aroca Miguel — Portfolio</span>
+        <span class="cargador__num">0</span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CURSOR PERSONALIZADO (solo se ve en ordenadores con ratón)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="cursor" aria-hidden="true"><span class="cursor__texto"></span></div>
+  <div class="cursor-punto" aria-hidden="true"></div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CABECERA / MENÚ DE NAVEGACIÓN
+       ═══════════════════════════════════════════════════════════════ -->
+  <header class="cabecera">
+    <nav class="cabecera__nav" aria-label="Navegación principal">
+      <a href="#sobre-mi" data-magnetico="0.3">Sobre mí</a>
+      <a href="#proyectos" data-magnetico="0.3">Proyectos</a>
+      <a href="#curriculum" data-magnetico="0.3">Currículum</a>
+      <a class="cabecera__cta" href="#contacto" data-magnetico="0.3">Contacto</a>
+    </nav>
+
+    <!-- Botón hamburguesa (solo en móvil y tablet) -->
+    <button class="cabecera__hamburguesa" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- Menú a pantalla completa para móvil -->
+  <div class="menu-movil" id="menu-movil">
+    <nav aria-label="Navegación móvil">
+      <a href="#sobre-mi"><small>01</small>Sobre mí</a>
+      <a href="#proyectos"><small>02</small>Proyectos</a>
+      <a href="#curriculum"><small>03</small>Currículum</a>
+      <a href="#contacto"><small>04</small>Contacto</a>
+    </nav>
+    <p class="menu-movil__pie">hugoaroca28@gmail.com · Albacete</p>
+  </div>
+
+
+  <main id="contenido">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         1 · HERO (PORTADA)
+         ═══════════════════════════════════════════════════════════════ -->
+    <section class="hero" id="inicio">
+
+      <!-- OBJETOS DECORATIVOS FLOTANTES (se mueven con el ratón).
+           Son puro adorno hecho con CSS/SVG: puedes borrar cualquiera
+           de estos bloques <div class="hero__forma …"> sin romper nada. -->
+
+      <!-- Flor azul brillante -->
+      <div class="hero__forma hero__forma--flor" data-profundidad="46" aria-hidden="true">
+        <div><i></i><i></i></div>
+      </div>
+
+      <!-- Estrella naranja brillante -->
+      <div class="hero__forma hero__forma--estrella" data-profundidad="26" aria-hidden="true">
+        <div>
+          <svg viewBox="0 0 100 100">
+            <defs>
+              <radialGradient id="brillo-estrella" cx="35%" cy="28%" r="80%">
+                <stop offset="0" stop-color="#FFE3B0"/><stop offset="0.28" stop-color="#FF8A1F"/><stop offset="0.7" stop-color="#FF3D12"/><stop offset="1" stop-color="#B81400"/>
+              </radialGradient>
+            </defs>
+            <path d="M50 4 C56 30 70 44 96 50 C70 56 56 70 50 96 C44 70 30 56 4 50 C30 44 44 30 50 4Z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="hero__centro">
+        <p class="hero__sobretitulo" data-hero-aparece>
+          <!-- ✏️ EDITA: frase corta encima del nombre -->
+          <span class="punto-vivo"></span> Portfolio 2026 — Diseño gráfico &amp; Fotografía
+        </p>
+
+        <!-- ✏️ EDITA: tu nombre. Cada palabra va en su propia línea.
+             (El JavaScript separa las letras automáticamente para animarlas) -->
+        <h1 class="hero__titulo" aria-label="Hugo Aroca Miguel">
+          <span class="hero__linea hero__linea--1" aria-hidden="true"><span data-letras>Hugo</span></span>
+          <span class="hero__linea hero__linea--2" aria-hidden="true"><span class="pildora" data-letras>Aroca</span></span>
+          <span class="hero__linea hero__linea--3" aria-hidden="true"><span class="seleccion" data-letras>Miguel</span></span>
+          <!-- Cursor de "herramienta de diseño" con etiqueta. ✏️ EDITA: el texto de la etiqueta -->
+          <span class="hero__forma hero__forma--puntero" data-profundidad="-16" aria-hidden="true">
+            <span><svg viewBox="0 0 24 24"><path d="M3 2 L21 10 L12.5 12.5 L10 21 Z"/></svg><b>Hugo</b></span>
+          </span>
+        </h1>
+      </div>
+
+      <div class="hero__pie">
+        <!-- ✏️ EDITA: descripción breve de la portada -->
+        <p class="hero__descripcion" data-hero-aparece>
+          Diseñador gráfico y fotógrafo. Carteles, marcas, libros e imágenes con carácter, hechos desde Albacete.
+        </p>
+        <p class="hero__etiqueta" data-hero-aparece>Disponible para proyectos</p>
+        <a class="hero__scroll" href="#sobre-mi" data-hero-aparece data-magnetico="0.4">
+          Baja <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+
+      <!-- Cinta de texto en movimiento.
+           ✏️ EDITA: cambia las palabras. IMPORTANTE: los dos grupos
+           (cinta__grupo) deben tener exactamente el mismo contenido. -->
+      <div class="cinta" aria-hidden="true">
+        <div class="cinta__pista">
+          <div class="cinta__grupo">
+            <span>Diseño gráfico</span><i>✺</i><span>Fotografía</span><i>✺</i><span>Gráfica impresa</span><i>✺</i><span>Cartelería</span><i>✺</i><span>Identidad visual</span><i>✺</i><span>Editorial</span><i>✺</i>
+          </div>
+          <div class="cinta__grupo">
+            <span>Diseño gráfico</span><i>✺</i><span>Fotografía</span><i>✺</i><span>Gráfica impresa</span><i>✺</i><span>Cartelería</span><i>✺</i><span>Identidad visual</span><i>✺</i><span>Editorial</span><i>✺</i>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         2 · SOBRE MÍ
+         ═══════════════════════════════════════════════════════════════ -->
+    <section class="sobre" id="sobre-mi">
+      <header class="seccion-cabecera">
+        <p class="etiqueta">(01)</p>
+        <h2 class="seccion-titulo" data-titulo>Sobre mí</h2>
+      </header>
+
+      <div class="sobre__rejilla">
+        <div class="sobre__texto">
+          <!-- ✏️ EDITA: frase grande de presentación.
+               Escribe solo texto (sin etiquetas dentro): las palabras se
+               iluminan una a una al hacer scroll. -->
+          <p class="sobre__frase" data-palabras>
+            Soy Hugo, diseñador gráfico y fotógrafo de Albacete. Mezclo tipografía contundente, color sin miedo e imagen con carácter para que las ideas se vean, se toquen y se recuerden.
+          </p>
+
+          <!-- ✏️ EDITA: párrafo secundario sobre ti (trayectoria, forma de trabajar…) -->
+          <p class="sobre__parrafo" data-revelar>
+            Me he formado en producto gráfico interactivo, gráfica impresa y fotografía, así que me muevo con la misma comodidad entre la pantalla, el papel y la cámara. Me gusta acompañar cada proyecto de principio a fin: de la primera idea al arte final.
+          </p>
+
+          <!-- ✏️ EDITA: lista de lo que haces. Añade o borra líneas <li> -->
+          <ul class="sobre__chips" aria-label="Especialidades">
+            <li data-revelar>Cartelería</li>
+            <li data-revelar>Identidad visual</li>
+            <li data-revelar>Diseño editorial</li>
+            <li data-revelar>Packaging</li>
+            <li data-revelar>Fotografía</li>
+            <li data-revelar>Ilustración</li>
+          </ul>
+        </div>
+
+        <figure class="sobre__retrato" data-revelar>
+          <div class="marco">
+            <!-- ✏️ EDITA: tu retrato. Cambia la ruta del src por otra imagen de ./recursos/ -->
+            <img src="./recursos/web/retrato.jpg" alt="Retrato ilustrado de Hugo Aroca Miguel" width="1063" height="1600">
+          </div>
+          <!-- ✏️ EDITA: texto de la pegatina sobre la foto -->
+          <figcaption class="sobre__hola">¡Hola!</figcaption>
+        </figure>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         3 · PROYECTOS  (galería con scroll horizontal en ordenador;
+                         en móvil las tarjetas se apilan en vertical)
+
+         CÓMO AÑADIR / QUITAR / CAMBIAR UN PROYECTO:
+         · Cada proyecto es un bloque <article class="tarjeta"> … </article>.
+           Copia y pega uno entero para añadir otro; bórralo para quitarlo.
+         · Al pulsar una tarjeta se abre una VENTANA EMERGENTE con todas
+           las fotos del proyecto. Esas fotos son la lista
+           <ul class="tarjeta__galeria"> que hay dentro de cada tarjeta:
+           añade, borra o reordena sus líneas <li> a tu gusto.
+         · DÓNDE ESTÁN LAS FOTOS:
+              ./recursos/web/nombre-del-proyecto/01.jpg, 02.jpg…
+                 → copias ligeras (1600 px) que usa la web.
+              ./recursos/originales/nombre-del-proyecto/
+                 → tus archivos originales a tamaño completo.
+           Para añadir una foto: guarda una copia a unos 1600 px en la
+           carpeta del proyecto dentro de ./recursos/web/ y añade su <li>.
+         · Formato de la tarjeta según la imagen de portada:
+              class="tarjeta tarjeta--vertical"    → portada en vertical
+              class="tarjeta tarjeta--horizontal"  → portada en horizontal
+         · Color del acento (también es el color de la ventana emergente):
+              tarjeta--rosa · tarjeta--lima · tarjeta--naranja · tarjeta--amarillo
+         · Los títulos y categorías están deducidos de tus archivos:
+           revísalos. Las descripciones son textos inventados: adáptalos.
+         ═══════════════════════════════════════════════════════════════ -->
+    <section class="proyectos" id="proyectos" aria-label="Proyectos">
+      <div class="proyectos__pista">
+
+        <!-- Panel de introducción de la galería -->
+        <header class="proyectos__intro">
+          <p class="etiqueta">(02)</p>
+          <h2 class="seccion-titulo" data-titulo>Proyectos</h2>
+          <!-- ✏️ EDITA: texto de introducción a tus trabajos -->
+          <p class="proyectos__entradilla">Una selección de carteles, marcas, piezas editoriales y fotografía. <span class="proyectos__pista-texto">Sigue bajando <span aria-hidden="true">→</span></span></p>
+        </header>
+
+        <!-- ───────── PROYECTO 01 · Impacto ───────── -->
+        <article class="tarjeta tarjeta--vertical tarjeta--rosa" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 01 -->
+            <img src="./recursos/web/impacto/01.jpg" alt="Anuncio de la salsa picante Impacto: Un golpe de sabor" loading="lazy" width="1067" height="1600">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>01</span><!-- ✏️ EDITA: categoría --><span>Campaña publicitaria</span></p>
+            <!-- ✏️ EDITA: título del proyecto 01 -->
+            <h3 class="tarjeta__titulo">Impacto</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 01 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Campaña para una salsa picante que no pide permiso. Fotografía de producto, retrato y un lema directo, llevados a marquesinas, revista y redes sociales.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 01.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/impacto/01.jpg">Anuncio de la salsa picante Impacto: Un golpe de sabor</li>
+            <li data-foto="./recursos/web/impacto/02.jpg">Anuncio de la salsa Impacto: Prueba. Aguanta. Repite.</li>
+            <li data-foto="./recursos/web/impacto/03.jpg">Anuncio de Impacto con un chico sujetando la botella: Pruébalo si te atreves</li>
+            <li data-foto="./recursos/web/impacto/04.jpg">Anuncio de Impacto: un puño golpea la cara de un chico</li>
+            <li data-foto="./recursos/web/impacto/05.jpg">Anuncio de Impacto en una marquesina de autobús</li>
+            <li data-foto="./recursos/web/impacto/06.jpg">Cartel de Impacto en la fachada de un edificio</li>
+            <li data-foto="./recursos/web/impacto/07.jpg">Publicaciones de Instagram de la campaña Impacto</li>
+            <li data-foto="./recursos/web/impacto/08.jpg">Revista abierta con el anuncio de Impacto a doble página</li>
+            <li data-foto="./recursos/web/impacto/09.jpg">Página de revista con el anuncio de Impacto</li>
+            <li data-foto="./recursos/web/impacto/10.jpg">Página de revista de Impacto: Él ya lo probó, ¿y tú?</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Impacto (10 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 02 · ¿Qué pescao? ───────── -->
+        <article class="tarjeta tarjeta--horizontal tarjeta--lima" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 02 -->
+            <img src="./recursos/web/que-pescao/01.jpg" alt="Dos carteles de la pescadería ¿Qué pescao? en una pared de azulejos" loading="lazy" width="1600" height="1200">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>02</span><!-- ✏️ EDITA: categoría --><span>Identidad visual</span></p>
+            <!-- ✏️ EDITA: título del proyecto 02 -->
+            <h3 class="tarjeta__titulo">¿Qué pescao?</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 02 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Identidad para una pescadería de barrio con mucha guasa. Lettering a mano, azul eléctrico y el producto como protagonista de cada cartel.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 02.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/que-pescao/01.jpg">Dos carteles de la pescadería ¿Qué pescao? en una pared de azulejos</li>
+            <li data-foto="./recursos/web/que-pescao/02.jpg">Cartel de ¿Qué pescao? curvado sobre fondo claro</li>
+            <li data-foto="./recursos/web/que-pescao/03.jpg">Cartel de ¿Qué pescao? pegado en una pared</li>
+            <li data-foto="./recursos/web/que-pescao/04.jpg">Papel de turno de la pescadería ¿Qué pescao?</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto ¿Qué pescao? (4 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 03 · Mala de Uvas ───────── -->
+        <article class="tarjeta tarjeta--vertical tarjeta--naranja" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 03 -->
+            <img src="./recursos/web/mala-de-uvas/01.jpg" alt="Botella de vino Mala de Uvas sobre fondo rojo" loading="lazy" width="1066" height="1600">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>03</span><!-- ✏️ EDITA: categoría --><span>Packaging</span></p>
+            <!-- ✏️ EDITA: título del proyecto 03 -->
+            <h3 class="tarjeta__titulo">Mala de Uvas</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 03 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Etiqueta para un vino joven con actitud gamberra. Ilustración en alto contraste, espray y dos versiones de color para una botella que se hace notar.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 03.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/mala-de-uvas/01.jpg">Botella de vino Mala de Uvas sobre fondo rojo</li>
+            <li data-foto="./recursos/web/mala-de-uvas/02.jpg">Mano sujetando la botella de vino Mala de Uvas</li>
+            <li data-foto="./recursos/web/mala-de-uvas/03.jpg">Logotipo de Mala de Uvas pintado con espray rosa</li>
+            <li data-foto="./recursos/web/mala-de-uvas/04.jpg">Diseño de la etiqueta de Mala de Uvas en versión rosa</li>
+            <li data-foto="./recursos/web/mala-de-uvas/05.jpg">Diseño de la etiqueta de Mala de Uvas en versión verde</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Mala de Uvas (5 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 04 · Raíces ───────── -->
+        <article class="tarjeta tarjeta--horizontal tarjeta--amarillo" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 04 -->
+            <img src="./recursos/web/raices/01.jpg" alt="Funda y disco de vinilo del proyecto Raíces" loading="lazy" width="1600" height="1200">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>04</span><!-- ✏️ EDITA: categoría --><span>Diseño de vinilo</span></p>
+            <!-- ✏️ EDITA: título del proyecto 04 -->
+            <h3 class="tarjeta__titulo">Raíces</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 04 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Un vinilo que mira a la tradición manchega con ojos de hoy. Fotografía propia, bordado en punto de cruz convertido en gráfica y una paleta suave.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 04.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/raices/01.jpg">Funda y disco de vinilo del proyecto Raíces</li>
+            <li data-foto="./recursos/web/raices/02.jpg">Vinilo de Raíces con una mujer vestida de manchega en la portada</li>
+            <li data-foto="./recursos/web/raices/03.jpg">Contraportada del vinilo Raíces con la lista de canciones</li>
+            <li data-foto="./recursos/web/raices/04.jpg">Vinilo de Raíces con unas manos y un mantón en la portada</li>
+            <li data-foto="./recursos/web/raices/05.jpg">Fotografía de portada de Raíces: una pareja con traje tradicional</li>
+            <li data-foto="./recursos/web/raices/06.jpg">Diseño de la contraportada de Raíces</li>
+            <li data-foto="./recursos/web/raices/07.jpg">Manos con un mantón blanco iluminadas en rojo</li>
+            <li data-foto="./recursos/web/raices/08.jpg">Mujer con mantilla y mantón en movimiento sobre fondo negro</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Raíces (8 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 05 · Cartelería ───────── -->
+        <article class="tarjeta tarjeta--vertical tarjeta--rosa" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 05 -->
+            <img src="./recursos/web/carteleria/01.jpg" alt="Cartel de Semana Santa 2026 con instrumentos musicales y telón rojo" loading="lazy" width="1168" height="1600">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>05</span><!-- ✏️ EDITA: categoría --><span>Carteles</span></p>
+            <!-- ✏️ EDITA: título del proyecto 05 -->
+            <h3 class="tarjeta__titulo">Cartelería</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 05 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Selección de carteles para fiestas, conciertos y teatro. Cada uno busca su propio lenguaje: bodegón fotográfico, ilustración, papel recortado o tipografía pura.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 05.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/carteleria/01.jpg">Cartel de Semana Santa 2026 con instrumentos musicales y telón rojo</li>
+            <li data-foto="./recursos/web/carteleria/02.jpg">Cartel de Semana Santa 2026 en un soporte de calle</li>
+            <li data-foto="./recursos/web/carteleria/03.jpg">Cartel de Semana Santa 2026 pegado en un muro de piedra</li>
+            <li data-foto="./recursos/web/carteleria/04.jpg">Fotografía del bodegón de instrumentos usada en el cartel</li>
+            <li data-foto="./recursos/web/carteleria/05.jpg">Cartel azul del Concierto de Santa Cecilia 2022</li>
+            <li data-foto="./recursos/web/carteleria/06.jpg">Cartel del Concierto de Santa Cecilia pegado en una pared</li>
+            <li data-foto="./recursos/web/carteleria/07.jpg">Dos versiones del cartel del Concierto de Santa Cecilia</li>
+            <li data-foto="./recursos/web/carteleria/08.jpg">Cartel azul y amarillo: Un calendario que te hará vibrar</li>
+            <li data-foto="./recursos/web/carteleria/09.jpg">Segunda versión del cartel Un calendario que te hará vibrar</li>
+            <li data-foto="./recursos/web/carteleria/10.jpg">Cartel ilustrado de las fiestas de Santa María Magdalena</li>
+            <li data-foto="./recursos/web/carteleria/11.jpg">Cartel de las fiestas de Santa María Magdalena pegado en una pared</li>
+            <li data-foto="./recursos/web/carteleria/12.jpg">Varios ejemplares del programa de teatro</li>
+            <li data-foto="./recursos/web/carteleria/13.jpg">Programa de teatro pegado en una pared</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Cartelería (13 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 06 · Libro de fotografía ───────── -->
+        <article class="tarjeta tarjeta--horizontal tarjeta--lima" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 06 -->
+            <img src="./recursos/web/libro-fotografia/01.jpg" alt="Libro de fotografía de arquitectura abierto por una doble página" loading="lazy" width="1600" height="1200">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>06</span><!-- ✏️ EDITA: categoría --><span>Editorial · Fotografía</span></p>
+            <!-- ✏️ EDITA: título del proyecto 06 -->
+            <h3 class="tarjeta__titulo">Libro de fotografía</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 06 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Un libro que recorre edificios y rincones a través de mi cámara. Maquetación limpia y mucho blanco para que cada imagen respire.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 06.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/libro-fotografia/01.jpg">Libro de fotografía de arquitectura abierto por una doble página</li>
+            <li data-foto="./recursos/web/libro-fotografia/02.jpg">Doble página del libro con vegetación y un edificio rojo</li>
+            <li data-foto="./recursos/web/libro-fotografia/03.jpg">Doble página del libro con la fachada de un edificio clásico</li>
+            <li data-foto="./recursos/web/libro-fotografia/04.jpg">Doble página del libro con una casa cubierta de hiedra</li>
+            <li data-foto="./recursos/web/libro-fotografia/05.jpg">Doble página del libro con un edificio azul entre árboles</li>
+            <li data-foto="./recursos/web/libro-fotografia/06.jpg">Primeras páginas del libro de fotografía</li>
+            <li data-foto="./recursos/web/libro-fotografia/07.jpg">Cubierta blanca del libro con una solapa roja</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Libro de fotografía (7 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 07 · Navaja y mantón ───────── -->
+        <article class="tarjeta tarjeta--vertical tarjeta--naranja" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 07 -->
+            <img src="./recursos/web/navaja-y-manton/01.jpg" alt="Retrato enmarcado de un hombre con una navaja y traje tradicional" loading="lazy" width="1326" height="1600">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>07</span><!-- ✏️ EDITA: categoría --><span>Fotografía · Retrato</span></p>
+            <!-- ✏️ EDITA: título del proyecto 07 -->
+            <h3 class="tarjeta__titulo">Navaja y mantón</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 07 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Serie de retratos que rinde homenaje a la cuchillería de Albacete. Luz de pintura clásica, traje tradicional y un marco dorado que convierte cada foto en un cuadro.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 07.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/navaja-y-manton/01.jpg">Retrato enmarcado de un hombre con una navaja y traje tradicional</li>
+            <li data-foto="./recursos/web/navaja-y-manton/02.jpg">Retrato enmarcado de una mujer con una navaja y mantón</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Navaja y mantón (2 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 08 · Filmoteca 2024 ───────── -->
+        <article class="tarjeta tarjeta--horizontal tarjeta--amarillo" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 08 -->
+            <img src="./recursos/web/filmoteca/01.jpg" alt="Portada del folleto Filmoteca 2024" loading="lazy" width="1600" height="1066">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>08</span><!-- ✏️ EDITA: categoría --><span>Editorial</span></p>
+            <!-- ✏️ EDITA: título del proyecto 08 -->
+            <h3 class="tarjeta__titulo">Filmoteca 2024</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 08 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Folleto de programación para una filmoteca. Portada de trazo enérgico en magenta y un interior ordenado para encontrar cada sesión de un vistazo.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 08.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/filmoteca/01.jpg">Portada del folleto Filmoteca 2024</li>
+            <li data-foto="./recursos/web/filmoteca/02.jpg">Páginas interiores del folleto con la programación</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Filmoteca 2024 (2 fotos)"></button>
+        </article>
+
+        <!-- ───────── PROYECTO 09 · Fotografía ───────── -->
+        <article class="tarjeta tarjeta--vertical tarjeta--rosa" data-cursor="Abrir">
+          <div class="marco">
+            <!-- ✏️ EDITA: imagen de portada del proyecto 09 -->
+            <img src="./recursos/web/fotografia/01.jpg" alt="Retrato en blanco y negro de una mujer con mantilla" loading="lazy" width="1064" height="1600">
+          </div>
+          <div class="tarjeta__info">
+            <p class="tarjeta__meta"><span>09</span><!-- ✏️ EDITA: categoría --><span>Retrato · Producto</span></p>
+            <!-- ✏️ EDITA: título del proyecto 09 -->
+            <h3 class="tarjeta__titulo">Fotografía</h3>
+            <!-- ✏️ EDITA: descripción del proyecto 09 (también se ve en la ventana emergente) -->
+            <p class="tarjeta__texto">Retrato, moda y producto. Una selección de imágenes en las que la luz y el color cuentan tanto como quien posa.</p>
+          </div>
+          <!-- ✏️ EDITA: FOTOS de la ventana emergente del proyecto 09.
+               Una línea <li> por foto: data-foto = ruta de la imagen;
+               el texto de dentro = descripción de la foto. -->
+          <ul class="tarjeta__galeria" hidden>
+            <li data-foto="./recursos/web/fotografia/01.jpg">Retrato en blanco y negro de una mujer con mantilla</li>
+            <li data-foto="./recursos/web/fotografia/02.jpg">Retrato de perfil de una mujer a contraluz</li>
+            <li data-foto="./recursos/web/fotografia/03.jpg">Retrato de una mujer con chaqueta negra y bolso</li>
+            <li data-foto="./recursos/web/fotografia/04.jpg">Retrato de una chica riendo sobre fondo morado</li>
+            <li data-foto="./recursos/web/fotografia/05.jpg">Escena con varias personas mirando el móvil alrededor de una figura tumbada</li>
+            <li data-foto="./recursos/web/fotografia/06.jpg">Fotografía de producto: frasco de colonia de lavanda sobre corcho</li>
+          </ul>
+          <button class="tarjeta__abrir" type="button" aria-haspopup="dialog" aria-label="Abrir el proyecto Fotografía (6 fotos)"></button>
+        </article>
+
+        <!-- Panel final de la galería -->
+        <div class="proyectos__final">
+          <!-- ✏️ EDITA: mensaje de cierre de la galería -->
+          <p>¿Quieres ver<br>el resto?</p>
+          <a class="boton-redondo" href="#curriculum" data-magnetico="0.35">Portfolio completo <span aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+
+      <!-- Barra de progreso de la galería (solo en ordenador) -->
+      <div class="proyectos__progreso" aria-hidden="true"><div class="proyectos__progreso-barra"></div></div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         4 · CURRÍCULUM
+         ═══════════════════════════════════════════════════════════════ -->
+    <section class="cv" id="curriculum">
+      <header class="seccion-cabecera">
+        <p class="etiqueta">(03)</p>
+        <h2 class="seccion-titulo" data-titulo>Currículum</h2>
+      </header>
+
+      <!-- LÍNEAS DE TIEMPO (datos sacados de tu CV, HugoArocaCV2026.pdf).
+           Cada <li class="cv__item"> es un estudio o un trabajo. Para añadir
+           otro, copia y pega un bloque <li> completo dentro de su lista. -->
+
+      <!-- ───────── FORMACIÓN ───────── -->
+      <h3 class="cv__subtitulo" data-revelar>Formación</h3>
+      <div class="cv__linea-tiempo">
+        <div class="cv__linea" aria-hidden="true"><div class="cv__linea-relleno"></div></div>
+        <ol class="cv__lista">
+          <li class="cv__item">
+            <!-- ✏️ EDITA: fechas -->
+            <p class="cv__fecha">2025 — Actualidad</p>
+            <div class="cv__cuerpo">
+              <p class="cv__tipo">Grado Superior · CFGS</p>
+              <h4 class="cv__titulo">Fotografía</h4>
+              <!-- ✏️ EDITA: descripción -->
+              <p class="cv__texto">Escuela de Arte de Albacete. Fotografía publicitaria, de moda, de reportaje social, de arquitectura y artística, además de fotoperiodismo y postproducción digital.</p>
+            </div>
+          </li>
+
+          <li class="cv__item">
+            <!-- ✏️ EDITA: fechas -->
+            <p class="cv__fecha">2023 — 2025</p>
+            <div class="cv__cuerpo">
+              <p class="cv__tipo">Grado Superior · CFGS</p>
+              <h4 class="cv__titulo">Gráfica impresa</h4>
+              <!-- ✏️ EDITA: descripción -->
+              <p class="cv__texto">Escuela de Arte de Albacete. Dirección de arte, productos gráficos impresos, uso experto de la tipografía y preparación de artes finales para imprenta.</p>
+              <p class="cv__nota-final">Nota final <strong>9,21</strong></p>
+            </div>
+          </li>
+
+          <li class="cv__item">
+            <!-- ✏️ EDITA: fechas -->
+            <p class="cv__fecha">2021 — 2023</p>
+            <div class="cv__cuerpo">
+              <p class="cv__tipo">Grado Medio · CFGM</p>
+              <h4 class="cv__titulo">Asistencia al producto gráfico interactivo</h4>
+              <!-- ✏️ EDITA: descripción -->
+              <p class="cv__texto">Escuela de Arte de Albacete. Producción y tratamiento de elementos multimedia y manejo de programas de edición web.</p>
+              <p class="cv__nota-final">Nota final <strong>9,27</strong></p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- ───────── EXPERIENCIA ───────── -->
+      <h3 class="cv__subtitulo" data-revelar>Experiencia</h3>
+      <div class="cv__linea-tiempo">
+        <div class="cv__linea" aria-hidden="true"><div class="cv__linea-relleno"></div></div>
+        <ol class="cv__lista">
+          <li class="cv__item">
+            <!-- ✏️ EDITA: fechas -->
+            <p class="cv__fecha">Abr — May 2025</p>
+            <div class="cv__cuerpo">
+              <p class="cv__tipo">Prácticas</p>
+              <h4 class="cv__titulo">Diseñador gráfico de redes sociales · Coconú</h4>
+              <!-- ✏️ EDITA: descripción -->
+              <p class="cv__texto">Formación en centros de trabajo del CFGS de Gráfica impresa.</p>
+            </div>
+          </li>
+
+          <li class="cv__item">
+            <!-- ✏️ EDITA: fechas -->
+            <p class="cv__fecha">Abr — May 2023</p>
+            <div class="cv__cuerpo">
+              <p class="cv__tipo">Prácticas</p>
+              <h4 class="cv__titulo">Diseñador gráfico y web · Trinexo</h4>
+              <!-- ✏️ EDITA: descripción -->
+              <p class="cv__texto">Formación en centros de trabajo del CFGM de Asistencia al producto gráfico interactivo.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+
+      <!-- ───────── HERRAMIENTAS ─────────
+           ✏️ EDITA: programas que manejas. Añade o borra líneas <li> -->
+      <h3 class="cv__subtitulo" data-revelar>Herramientas</h3>
+      <ul class="cv__herramientas">
+        <li data-revelar>Photoshop</li>
+        <li data-revelar>Illustrator</li>
+        <li data-revelar>InDesign</li>
+        <li data-revelar>Lightroom</li>
+        <li data-revelar>Premiere Pro</li>
+        <li data-revelar>After Effects</li>
+        <li data-revelar>Figma</li>
+      </ul>
+
+      <!-- BOTÓN GIGANTE DE DESCARGA DEL PORTFOLIO EN PDF.
+           ✏️ EDITA: si cambias el PDF, guarda el nuevo en ./recursos/ y
+           pon su nombre en el atributo href. -->
+      <div class="cv__descarga" data-revelar>
+        <a class="descarga" href="./recursos/portafolio_Curriculum_CV.pdf" download data-magnetico="0.12" data-cursor="PDF">
+          <span class="descarga__relleno" aria-hidden="true"></span>
+          <span class="descarga__texto">Descargar<br>portfolio</span>
+          <span class="descarga__icono" aria-hidden="true">↓</span>
+        </a>
+        <div class="cv__extra">
+          <!-- ✏️ EDITA: nota bajo el botón (formato y peso del archivo) -->
+          <p class="cv__nota">PDF · 30 MB · Portfolio + CV</p>
+
+          <!-- BOTÓN DE DESCARGA DEL CV (solo el currículum, archivo ligero).
+               ✏️ EDITA: si actualizas el CV, guarda el nuevo PDF en ./recursos/
+               y pon su nombre en el atributo href. -->
+          <a class="boton-cv" href="./recursos/HugoArocaCV2026.pdf" download data-magnetico="0.25" data-cursor="CV">
+            <span class="boton-cv__texto">Descargar CV</span>
+            <span class="boton-cv__icono" aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       5 · CONTACTO (PIE DE PÁGINA)
+       ═══════════════════════════════════════════════════════════════ -->
+  <footer class="contacto" id="contacto">
+    <header class="seccion-cabecera">
+      <p class="etiqueta">(04) Contacto</p>
+      <!-- ✏️ EDITA: titular del contacto -->
+      <h2 class="seccion-titulo contacto__titulo" data-titulo>¿Hablamos?</h2>
+    </header>
+
+    <!-- ✏️ EDITA: tu correo (cámbialo en el href Y en el texto visible) -->
+    <a class="contacto__email" href="mailto:hugoaroca28@gmail.com" data-cursor="Escribe" data-revelar>
+      hugoaroca28<wbr>@gmail.com
+    </a>
+
+    <ul class="contacto__datos">
+      <li data-revelar>
+        <span class="etiqueta">Teléfono</span>
+        <!-- ✏️ EDITA: tu teléfono (en el href va con +34 y sin espacios) -->
+        <a href="tel:+34684370230" data-magnetico="0.25">684 370 230</a>
+      </li>
+      <li data-revelar>
+        <span class="etiqueta">Ubicación</span>
+        <!-- ✏️ EDITA: tu ciudad -->
+        <span>Albacete, España</span>
+      </li>
+      <li data-revelar>
+        <span class="etiqueta">Hora local</span>
+        <!-- La hora de Albacete se actualiza sola desde script.js -->
+        <span id="hora-local">—:—</span>
+      </li>
+    </ul>
+
+    <div class="contacto__pie">
+      <!-- El año se actualiza solo desde script.js -->
+      <p>© <span id="anio">2026</span> Hugo Aroca Miguel</p>
+      <a href="#inicio" data-magnetico="0.3">Volver arriba <span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       VENTANA EMERGENTE DE PROYECTO
+       Se abre al pulsar una tarjeta de Proyectos. No hace falta tocarla:
+       script.js la rellena sola con el título, el texto y las fotos de
+       la tarjeta pulsada (la lista <ul class="tarjeta__galeria">).
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="visor" id="visor" role="dialog" aria-modal="true" aria-labelledby="visor-titulo" hidden>
+    <div class="visor__panel">
+
+      <div class="visor__info">
+        <p class="visor__meta"><span class="visor__num"></span><span class="visor__categoria"></span></p>
+        <h2 class="visor__titulo" id="visor-titulo"></h2>
+        <p class="visor__texto"></p>
+      </div>
+
+      <button class="visor__cerrar" type="button" data-magnetico="0.3" aria-label="Cerrar el proyecto">Cerrar <span aria-hidden="true">✕</span></button>
+
+      <div class="visor__escenario" data-cursor="Siguiente">
+        <img class="visor__imagen" src="" alt="">
+      </div>
+
+      <div class="visor__controles">
+        <button class="visor__flecha visor__flecha--anterior" type="button" data-magnetico="0.35" aria-label="Foto anterior">←</button>
+        <p class="visor__contador" aria-live="polite"></p>
+        <button class="visor__flecha visor__flecha--siguiente" type="button" data-magnetico="0.35" aria-label="Foto siguiente">→</button>
+      </div>
+
+      <ul class="visor__miniaturas" aria-label="Fotos del proyecto"></ul>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LIBRERÍAS DE ANIMACIÓN (GSAP + ScrollTrigger, desde CDN)
+       y el JavaScript de la página. No cambies el orden.
+       ═══════════════════════════════════════════════════════════════ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="./script.js"></script>
+</body>
+</html>
