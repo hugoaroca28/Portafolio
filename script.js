@@ -54,7 +54,7 @@
   }
 
   /* ── Imágenes que no existen: muestra un aviso con la ruta que falta ──
-     (útil cuando cambias una ruta de ./recursos/ y te equivocas al escribirla) */
+     (útil cuando cambias la ruta de una imagen y te equivocas al escribirla) */
   $$('.marco img').forEach((img) => {
     const marcarVacio = () => {
       img.parentElement.classList.add('marco--vacio');
